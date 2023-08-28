@@ -2,7 +2,7 @@ export interface SetupTeardown {
   beforeAll?: () => void | Promise<void>;
   beforeEach?: () => void | Promise<void>;
   afterEach?: () => void | Promise<void>;
-  afterAll?: () => void | Promise<void>;
+  afterAll?: () => undefined;
 }
 
 let setupTeardown: SetupTeardown = {};
@@ -25,14 +25,19 @@ function wrapTest(
   fn: (t: Deno.TestContext) => void | Promise<void>,
 ): (t: Deno.TestContext) => void | Promise<void> {
   const innerFn = async (t: Deno.TestContext) => {
+    if (!beforeAllExecuted && setupTeardown.beforeAll) {
+      await setupTeardown.beforeAll();
+      beforeAllExecuted = true;
+    }
+
     if (setupTeardown.beforeEach) {
-      setupTeardown.beforeEach();
+      await setupTeardown.beforeEach();
     }
 
     await fn(t);
 
     if (setupTeardown.afterEach) {
-      setupTeardown.afterEach();
+      await setupTeardown.afterEach();
     }
   };
   Object.defineProperty(innerFn, "name", { value: fn.name, writable: false });
@@ -66,13 +71,6 @@ export function register(testAugment: SetupTeardown) {
     }
     if (third && third instanceof Function) {
       third = wrapTest(third);
-    }
-
-    if (!beforeAllExecuted) {
-      if (setupTeardown.beforeAll) {
-        setupTeardown.beforeAll();
-      }
-      beforeAllExecuted = true;
     }
 
     // @ts-ignore
