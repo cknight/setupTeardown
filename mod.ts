@@ -28,7 +28,7 @@ globalThis.addEventListener("unload", () => {
 /**
  * Register a series of setup and teardown functions to be executed before and
  * after tests.
- * @param testAugment 
+ * @param testAugment
  */
 export function register(testAugment: SetupTeardown) {
   setupTeardown = testAugment;

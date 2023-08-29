@@ -9,12 +9,12 @@ This module augments `Deno.test` to provide the following functionality:
 
 The scope of the before/after functions is limited to a single module test file.
 E.g. if you have two test files, a_test.ts and b_test.ts, and you register
-before or after functions in a_test.ts, it will have no affect on b_test.ts. 
-In other words, `beforeAll` applies at a module level, not an overall test run 
+before or after functions in a_test.ts, it will have no affect on b_test.ts. In
+other words, `beforeAll` applies at a module level, not an overall test run
 level (which executes multiple test files).
 
-Asynchronous execution of all before/after functions is available except for 
-`afterAll` which must be synchronous.  All functions are optional and are 
+Asynchronous execution of all before/after functions is available except for
+`afterAll` which must be synchronous. All functions are optional and are
 registered via the `register()` function.
 
 ### Example
