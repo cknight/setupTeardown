@@ -20,7 +20,7 @@ registered via the `register()` function.
 ### Example
 
 ```ts
-import { register } from "./mod.ts";
+import { register } from "https://deno.land/x/setup_teardown@1.0.1/mod.ts";
 
 const order: string[] = [];
 
