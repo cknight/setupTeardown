@@ -104,5 +104,5 @@ globalThis.addEventListener("unload", () => {
   }
   orderExpected.push("After all");
   assertEquals(order, orderExpected);
-  console.log("Tests passed")
+  console.log("Tests passed");
 });
